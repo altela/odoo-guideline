@@ -3,7 +3,7 @@
 You can always override XML record by following this example :
 
 ```xml
-  <template id="product.report_productlabel" />
+<template id="product.report_productlabel" />
 ```
 
 Inside your module, declare a line like the snippet above. it will monkeypatch `product.report_productlabel` inside the Odoo.
@@ -38,3 +38,28 @@ _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'sequence.mixi
 access_token = fields.Char()
 ```
 Everything should have been exactly like example above, so it will allows you to make an access token.
+
+### Compare / Convert The Database Time (UTC0) With Logged in User Timezone
+By default, time and date inside Odoo postgresql is saved in UTC0 format. If you are working with times in Odoo, it is always recommended to convert the date and times into user's timezone first.
+After you made some manipulation on those times in computer memory, simply save it back into fields.Datetime(). it will also converted back automatically into the UTC0 as well.
+
+The recommended flow to work on the date in a nutshell is :
+fetch a date from postgresql (use ORM is also fine) -> convert the date into current user timezone -> make some manipulation -> store it back to fields.Datetime() -> it will saved back into postgresql
+
+This is the block example : 
+
+```python
+from odoo import fields
+
+# Initializing the records and user timezones
+api_time = record['updatedAt'] # Assuming this is the date and time, fetch from external API or casual text format
+api_time_in_datetime_format = fields.Datetime.from_string(api_time) # Convert api_time into Datetime format using odoo fields import
+user_timezone = self.env.user.tz # This will get current user timezone, accessible from .env
+
+# convert from UTC0 (server timezone) to user timezone
+api_time_in_user_timezone = fields.Datetime.context_timestamp(self.with_context(tz=user_timezone), timestamp=api_time_in_datetime_format)
+api_time_converted_as_strftime= api_time_in_user_timezone.strftime("%Y-%m-%d %H:%M:%S")
+api_time_converted_as_strptime = datetime.strptime(api_time_converted_as_string, "%Y-%m-%d %H:%M:%S")
+```
+
+

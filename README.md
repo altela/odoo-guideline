@@ -1,4 +1,13 @@
 # XML
+## Many2many Checkbox
+Add checkbox on many2many
+```xml
+<field name="order_pengiriman_recap" widget="many2many_checkboxes"/>
+```
+It will resulting like this
+
+![Screen Shot 2024-04-16 at 00 50 13](https://github.com/altela/odoo-doc/assets/68892527/5103f79d-a2b1-44e0-83c3-a8639148bd6a)
+
 ## Override XML Template
 You can always override XML record by following this example :
 

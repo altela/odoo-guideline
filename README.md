@@ -73,6 +73,25 @@ This will help you to make single signature on the bottom right
 
 # Python
 
+## Auto Create Sequence
+Generate sequence when record is created
+```python
+class RekapOrder(models.Model):
+    _name = 'rekap.order'
+    _description = 'Rekap Order Pengiriman'
+    _rec_name = 'name'
+
+    name = fields.Char(readonly=True, required=True, copy=False, default='New')
+    @api.model
+    def create(self, vals):
+        # Auto Assign record name
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].with_company(self.company_id.id).next_by_code('rekap.order.sequence') or 'New'
+        result = super(OrderSetoran, self).create(vals)
+
+        return result
+```
+
 ## One2many Guideline
 Here's the basic One2many guidelines
 ```python

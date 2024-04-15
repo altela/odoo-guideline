@@ -37,6 +37,16 @@ You can remove the trailing digits and add thousand separator using this format 
 Rp<t t-esc="'{:,}'.format(int(monthly_penerimaan.nominal)).replace(',', '.')"/>
 ```
 
+## QWEB Make Empty Single Line in the Table
+This will make empty single lin in the table
+```xml
+    <tr>
+        <td>&#160;</td>
+        <td>&#160;</td>
+        <td>&#160;</td>
+    </tr>
+```
+
 # Python
 
 ## One2many Guideline

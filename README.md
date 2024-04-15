@@ -31,6 +31,12 @@ In case if you are developing a view that you wish to render to html or WKHTMLTO
 </div>
 ```
 
+## QWEB Remove Trailing Digits And Add Thousand Separator
+You can remove the trailing digits and add thousand separator using this format :
+```xml
+Rp<t t-esc="'{:,}'.format(int(monthly_penerimaan.nominal)).replace(',', '.')"/>
+```
+
 # Python
 
 ## One2many Guideline

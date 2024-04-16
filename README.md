@@ -82,6 +82,11 @@ This will help you to make single signature on the bottom right
 
 # Python
 
+## Set Current Date Using fields
+```python
+define_a_date = fields.Date.today()
+```
+
 ## Auto Create Sequence
 Generate sequence when record is created
 ```python

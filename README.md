@@ -1,4 +1,11 @@
 # XML
+
+## Readable or Clickable State
+Make state readable or clickable
+```xml
+<field name="state" widget="statusbar" options="{'clickable':1}"/>
+```
+
 ## Many2many Checkbox
 Add checkbox on many2many
 ```xml

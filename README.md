@@ -1,5 +1,16 @@
 # XML
 
+## One2Many Attribute No Create, No Create Edit
+```xml
+<notebook>
+    <page string="Product Exchange">
+        <field name="product_line" options="{'no_create': True, 'no_create_edit':True}">
+            .....
+        </field>
+    </page>
+</notebook>
+```
+
 ## Readable or Clickable State
 Make state readable or clickable
 ```xml

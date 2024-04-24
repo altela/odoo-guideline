@@ -100,6 +100,19 @@ This will help you to make single signature on the bottom right
 
 # Python
 
+## Forcefully write debit-credit
+
+using .with_context() will help to forcefully write debit-credit of journal entry without cancelling it.
+
+```python
+journal_entry_line = self.env['account.move.line'].search([('ref', '=', str(self.name + " - " + " Vendor Exchange Out" + " - " + line.main_product.name))])
+for record in journal_entry_line:
+    if record.debit > 0:
+        record.with_context(check_move_validity=False).write({'debit': line.main_product_cost * line.main_product_qty})
+    if record.credit > 0:
+        record.with_context(check_move_validity=False).write({'credit': line.main_product_cost * line.main_product_qty})
+```
+
 ## Set Current Date Using fields
 ```python
 define_a_date = fields.Date.today()

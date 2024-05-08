@@ -11,6 +11,11 @@
 </notebook>
 ```
 
+## Print Date in Report
+```xml
+<t t-esc="context_timestamp(o.attendance_start).strftime('%d/%m/%Y')"/>
+```
+
 ## Overlay Text
 
 ![Screen Shot 2024-05-07 at 09 31 00](https://github.com/altela/odoo-doc/assets/68892527/b87c7b38-a17f-422f-87ef-54ab33b1b7e2)

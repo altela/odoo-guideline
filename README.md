@@ -1,5 +1,10 @@
 # XML
 
+## Changing Form String Name Title
+```xml
+    <form string="Change Effective Date">
+```
+
 ## One2Many Attribute No Create, No Create Edit
 ```xml
 <notebook>
@@ -164,6 +169,19 @@ class ComodelsOfMain(models.Model):
     _name = 'comodels.of.main'
 
     model_id = fields.Many2one('main.models')
+```
+
+## Changing Form String Name Title (In Python Ways)
+You can Add 'name' keys to pass wizard
+```python
+    def open_project_task_wizard(self):
+        return {
+            'name': ("Create Project Task"),
+            'type': 'ir.actions.act_window',
+            'res_model': 'crm.project.task.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+        }
 ```
 
 ## Add New Selection Options

@@ -11,6 +11,27 @@
     </group>
 ```
 
+## Make Field On the Far Left and The Far Right
+```xml
+<!-- UWI And Date -->
+<div style="display: flex; justify-content: space-between; gap: 100px;">
+    <div style="flex: 1;">
+        <group>
+            <field name="uwi" placeholder="100/00-00-000-00W5/00" string="UWI"/>
+        </group>
+    </div>
+    
+    <div style="flex: 1; display: flex; justify-content: flex-end;">
+        <group>
+            <field name="create_date" />
+        </group>
+    </div>
+</div>
+```
+The result
+
+![Screen Shot 2024-05-17 at 14 22 44](https://github.com/altela/odoo-doc/assets/68892527/e9d21c9f-88f2-4e48-a09a-dc650d4bedfe)
+
 ## One2Many Attribute No Create, No Create Edit
 ```xml
 <notebook>

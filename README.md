@@ -4,6 +4,12 @@
 ```xml
     <form string="Change Effective Date">
 ```
+## Make Field 100% Of Form Sheet View
+```xml
+    <group class="oe_structure">
+        <field name="uwi" placeholder="100/00-00-000-00W5/00" string="UWI"/>
+    </group>
+```
 
 ## One2Many Attribute No Create, No Create Edit
 ```xml

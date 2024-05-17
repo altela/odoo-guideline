@@ -198,6 +198,11 @@ class ComodelsOfMain(models.Model):
     model_id = fields.Many2one('main.models')
 ```
 
+## Define Single Digits
+```python
+psn_depth = fields.Float(string="PSN Depth", digits=(6, 1))
+```
+
 ## Changing Form String Name Title (In Python Ways)
 You can Add 'name' keys to pass wizard
 ```python

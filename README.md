@@ -11,6 +11,22 @@
     </group>
 ```
 
+## Create a Search
+```xml
+<record id="well_information_search" model="ir.ui.view">
+    <field name="name">well.information.search</field>
+    <field name="model">well.information</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="uwi" string="UWI"/>
+            <field name="company_id" string="Company"/>
+            <field name="employee_id" string="Employee"/>
+            <field name="well_license" string="Well License"/>
+        </search>
+    </field>
+</record>
+```
+
 ## Make Field On the Far Left and The Far Right
 ```xml
 <!-- UWI And Date -->

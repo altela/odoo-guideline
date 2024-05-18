@@ -198,6 +198,18 @@ class ComodelsOfMain(models.Model):
     model_id = fields.Many2one('main.models')
 ```
 
+## Assign Existing Record into Many2many
+```python
+previous_well_info = fields.Many2many('well.information', 'previous_well_info', 'uwi', 'uwi_id', string='Legumes', readonly=True)
+
+def fetch_previous_uwi(self):
+     previous_uwi = self.env['well.information'].search([('uwi', '=', self.uwi), ('id', '!=', self.id)])
+     self.previous_well_info = [(5, 0, 0)]
+
+     if bool(previous_uwi):
+         self.previous_well_info = previous_uwi.ids
+```
+
 ## Define Single Digits
 ```python
 psn_depth = fields.Float(string="PSN Depth", digits=(6, 1))

@@ -261,4 +261,12 @@ api_time_converted_as_strftime= api_time_in_user_timezone.strftime("%Y-%m-%d %H:
 api_time_converted_as_strptime = datetime.strptime(api_time_converted_as_string, "%Y-%m-%d %H:%M:%S")
 ```
 
+## Define And Create Attachment
+```python
+attachment_id = fields.Many2many('ir.attachment')
+```
+
+```xml
+<field name="attachment_id" widget="many2many_binary"/>
+```
 

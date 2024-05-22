@@ -226,6 +226,25 @@ def fetch_previous_uwi(self):
          self.previous_well_info = previous_uwi.ids
 ```
 
+## post_init_hook
+For version 17.0, it doesnt need cr and registry as parameter anymore but rather using env as code below
+```python
+# -*- coding: utf-8 -*-
+from . import models
+from odoo import api, SUPERUSER_ID
+
+
+def post_init_hook(env):
+    # env = api.Environment(env, SUPERUSER_ID, {})
+    companies = env['res.company'].search([])
+
+    for company in companies:
+        env['default.service'].create({
+            'company_id': company.id,
+            'name': 'Default Service',
+        })
+```
+
 ## Define Single Digits
 ```python
 psn_depth = fields.Float(string="PSN Depth", digits=(6, 1))

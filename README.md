@@ -10,6 +10,10 @@
         <field name="uwi" placeholder="100/00-00-000-00W5/00" string="UWI"/>
     </group>
 ```
+## Display Currency in the QWEB
+```xml
+<span t-field="line.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+```
 
 ## Create a Search
 ```xml

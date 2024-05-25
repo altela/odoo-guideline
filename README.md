@@ -15,6 +15,25 @@
 <span t-field="line.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
 ```
 
+## Display Floating Header on The Right
+```xml
+    <div style="width:100%; display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:flex-end; padding-bottom: 2px;">
+            <div style="width:55%; font-size:15px; text-align:left; margin-left:550px;">
+                <div style="font-size:20px; text-align:left; color:#000">
+                    <b>Ticket Number :</b> <span t-esc="o.ticket_number" /><br/>
+                    <b>Ticket Date :</b> <span t-esc="context_timestamp(o.create_date).strftime('%d-%b-%Y')" /><br/>
+                    <b>Major-Minor :</b> <span t-esc="o.minor_major" /><br/>
+                </div>
+            </div>
+        </div>
+    </div>
+```
+The result will be
+
+![image](https://github.com/altela/odoo-doc/assets/68892527/db102ba4-3ee9-48bb-a81e-ab41ae244c21)
+
+
 ## Create a Search
 ```xml
 <record id="well_information_search" model="ir.ui.view">

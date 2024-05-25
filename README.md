@@ -292,6 +292,11 @@ You can Add 'name' keys to pass wizard
         }
 ```
 
+## Find Record in Database Based on XML ID
+```python
+record_id = self.env.ref('module_name.xml_id_of_record').id 
+```
+
 ## Add New Selection Options
 You can add new option into Odoo's fields.Selection(selection_add=[]) like :
 

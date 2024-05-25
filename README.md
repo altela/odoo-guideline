@@ -279,6 +279,24 @@ def post_init_hook(env):
 psn_depth = fields.Float(string="PSN Depth", digits=(6, 1))
 ```
 
+## Create Pop Up Notification
+```python
+from odoo import _
+
+message = _("Connection Test Successful!")
+return {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'message': message,
+        'type': 'success',
+        'sticky': False,
+    }
+}
+
+```
+'type' can be changed to 'success', 'warning', 'danger', 'info'
+
 ## Changing Form String Name Title (In Python Ways)
 You can Add 'name' keys to pass wizard
 ```python

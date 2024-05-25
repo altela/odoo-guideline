@@ -4,6 +4,12 @@
 ```xml
     <form string="Change Effective Date">
 ```
+
+## Defining Password Field
+```xml
+<field name"sensitive_field" password="True" >
+```
+
 ## Make Field 100% Of Form Sheet View
 ```xml
     <group class="oe_structure">

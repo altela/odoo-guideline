@@ -5,6 +5,32 @@
     <form string="Change Effective Date">
 ```
 
+## QWEB Report Two Table Left and Right
+```xml
+<table width="100%" style="border: 0px !important; border-collapse: collapse; ">
+    <tr style="border-top: 0px solid #fff; border-left: 0px solid #fff; border-right: 0px solid #fff; border-bottom: 0px solid #fff; border-collapse: collapse; background-color:#fff; color: #000" >
+        <td class="border-0" width="45%" style="border: none; background-color:#fff; color: #000; padding-bottom: 5px; font-size:15px">
+            <div style="font-size:20px">
+                <b>Company :</b> <t t-esc="o.company_id.name"/>
+            </div>
+        </td>
+
+        <td width="25%" style="border: none; background-color:#fff; color: #000; font-size:15px">
+        </td>
+
+        <td width="45%" style="border: none; background-color:#fff; color: #000; font-size:15px">
+            <div style="font-size:20px">
+                <b>Field :</b> Field A
+            </div>
+        </td>
+    </tr>
+</table>
+```
+
+This will result as follow
+
+<img width="687" alt="image" src="https://github.com/altela/odoo-doc/assets/68892527/925802a8-6e5f-4bf7-ac17-d52067160ee6">
+
 ## Defining Password Field
 ```xml
 <field name"sensitive_field" password="True" >

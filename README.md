@@ -255,6 +255,41 @@ class RekapOrder(models.Model):
         return result
 ```
 
+## Download Attachment Through Button, Make ir.attachment, And Create Email
+It works like casual Odoo email sending, but not using window pop up
+```python
+    def send_email(self):
+        # Step 1: Generate the report
+        report_pdf = self.env["ir.actions.report"].sudo()._render_qweb_pdf(self.env.ref('crm_project_task.report_well_information_project'), res_ids=self.id)
+
+        # Step 2 : Create ir.attachment
+        filename = 'altela' + '.pdf'
+        attachment = self.env['ir.attachment'].create({
+            'name': filename,
+            'type': 'binary',
+            'datas': base64.b64encode(report_pdf[0]),
+            'res_model': 'project.task',
+            'res_id': self.id,
+            'mimetype': 'application/x-pdf'
+        })
+
+        # Step 4: Create a new record in 'email.record' with the attachment
+        email_record = self.env['email.record'].create({
+            'attachments': [(4, attachment.id, False)],
+        })
+
+        # Step 5: Return an action to open the newly created email_record
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Email Record',
+            'res_model': 'email.record',
+            'view_mode': 'form',
+            'res_id': email_record.id,
+            'target': 'current',
+        }
+        return action
+```
+
 ## One2many Guideline
 Here's the basic One2many guidelines
 ```python

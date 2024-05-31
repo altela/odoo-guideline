@@ -5,6 +5,27 @@
     <form string="Change Effective Date">
 ```
 
+## Make Total Box
+```xml
+    <div class="oe_right" style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+        <table width="10%" style="border: 0px !important; border-collapse: collapse;">
+            <tr style="border: none; background-color:#fff; color: #000;">
+                <td class="border-0" style="border: none; background-color:#fff; color: #000; padding-bottom: 5px;">
+                    <div>
+                        <b>Subtotal :</b>
+                    </div>
+                </td>
+                <td style="border: none; background-color:#fff; color: #000; text-align: right;">
+                    <div>
+                        <field name="subtotal" style="text-align:right;" force_save="1" readonly="1"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+```
+![Screen Shot 2024-05-31 at 11 01 43](https://github.com/altela/odoo-doc/assets/68892527/a870800d-928d-4007-a704-0bcfb7f04d14)
+
 ## QWEB Report Two Table Left and Right
 ```xml
 <table width="100%" style="border: 0px !important; border-collapse: collapse; ">

@@ -266,6 +266,28 @@ for record in journal_entry_line:
 define_a_date = fields.Date.today()
 ```
 
+## Link register payment with invoice
+```python
+    def register_payment(self):
+        payment_data = {
+            'payment_type': 'inbound',
+            'partner_id': self.partner_id.id,
+            'amount': order_pending['grandTotal'],
+            'ref': 'Payment for Invoice %s' % invoice.name,
+            'date': datetime.strptime(order_pending['createdAt'], '%Y-%m-%d %H:%M:%S').date(),
+            'journal_id': rule.auto_workflow.payment_journal.id
+        }
+
+        payment = self.env['account.payment'].create(payment_data)
+
+        # Post the payment
+        payment.action_post()
+
+        # Link payment with the invoice
+        receivable_line = payment.line_ids.filtered('credit')
+        invoice.js_assign_outstanding_line(receivable_line.id)
+```
+
 ## Auto Create Sequence
 Generate sequence when record is created
 ```python

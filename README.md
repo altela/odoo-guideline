@@ -288,6 +288,19 @@ define_a_date = fields.Date.today()
         invoice.js_assign_outstanding_line(receivable_line.id)
 ```
 
+## Track Invoice Payment
+```python
+    @api.depends('amount_residual', 'move_type', 'state', 'company_id')
+    def _compute_payment_state(self):
+        res = super(InvoiceInherit, self)._compute_payment_state()
+
+        for rec in self:
+            if rec.type_name == 'Invoice':
+                print(rec.id)
+                print(rec.payment_state)
+        return res
+```
+
 ## Auto Create Sequence
 Generate sequence when record is created
 ```python

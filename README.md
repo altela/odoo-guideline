@@ -52,6 +52,14 @@ This will result as follow
 
 <img width="687" alt="image" src="https://github.com/altela/odoo-doc/assets/68892527/925802a8-6e5f-4bf7-ac17-d52067160ee6">
 
+## Make XML State With Badge and Color
+```xml<field name="state" string="State" optional="show" widget="badge" decoration-info="state in ('draft', 'ticket_sent')" decoration-success="state in ('ticket_approved', 'invoiced')"/>
+```
+
+Will resulting like this
+
+<img width="1122" alt="Screen Shot 2024-06-01 at 10 17 35" src="https://github.com/altela/odoo-doc/assets/68892527/fd75fc60-ffb9-4b19-ae8c-7faaedc216fb">
+
 ## Defining Password Field
 ```xml
 <field name"sensitive_field" password="True" >

@@ -320,6 +320,15 @@ class RekapOrder(models.Model):
         return result
 ```
 
+## Set Domain Based on Company
+```python
+    account_stock_journal = fields.Many2one('account.journal', ondelete='restrict', domain=lambda self: self._get_company_domain())
+
+    @api.model
+    def _get_company_domain(self):
+        return [('company_id', '=', self.env.company.id)]
+```
+
 ## Download Attachment Through Button, Make ir.attachment, And Create Email
 It works like casual Odoo email sending, but not using window pop up
 ```python

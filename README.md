@@ -5,6 +5,15 @@
     <form string="Change Effective Date">
 ```
 
+## Set Multicompany Rules For Record of Different Company
+```xml
+    <record model="ir.rule" id="default_stock_journal_multicompany_rule">
+        <field name="name">Multi-Company Default Stock Journal</field>
+        <field name="model_id" search="[('model','=','journal.setup.effective')]" model="ir.model"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+```
+
 ## Make Total Box
 ```xml
     <div class="oe_right" style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">

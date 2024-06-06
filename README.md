@@ -1,5 +1,19 @@
 # XML
 
+## Align Right Using Div
+```xml
+    <div style="text-align:right; margin-top:20px; ">
+        <div style="text-align: left">
+            <div style="float:right; color:#000; font-size:17px; width:30%; margin-bottom:20px">
+                <b>Ticket Number :</b> <span t-esc="o.ticket_number"/><br/>
+                <b>Ticket Date :</b> <span t-esc="context_timestamp(o.create_date).strftime('%d-%b-%Y')"/><br/>
+                <b>Major-Minor :</b> <span t-esc="o.minor_major"/><br/>
+            </div>
+        </div>
+    </div>
+```
+![image](https://github.com/altela/odoo-doc/assets/68892527/aff620b9-90a6-414e-947c-608e9089280a)
+
 ## Changing Form String Name Title
 ```xml
     <form string="Change Effective Date">

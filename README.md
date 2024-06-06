@@ -9,6 +9,10 @@
 ```xml
 <tr style="color: #000; border: 0; border-top: 1px solid transparent; border-left: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent;">
 ```
+## Transparent Background Table
+```xml
+<td width="45%" style="border: none; background-color: transparent; color: #000; font-size: 15px;">
+```
 
 ## Set Multicompany Rules For Record of Different Company
 ```xml

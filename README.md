@@ -5,6 +5,11 @@
     <form string="Change Effective Date">
 ```
 
+## Transparent Line Table
+```xml
+<tr style="color: #000; border: 0; border-top: 1px solid transparent; border-left: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent;">
+```
+
 ## Set Multicompany Rules For Record of Different Company
 ```xml
     <record model="ir.rule" id="default_stock_journal_multicompany_rule">

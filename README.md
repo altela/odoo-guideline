@@ -296,6 +296,10 @@ for record in journal_entry_line:
 ## Set Current Date Using fields
 ```python
 define_a_date = fields.Date.today()
+
+# or
+
+define_a_date = fields.Date.context_today(self)
 ```
 
 ## Link register payment with invoice

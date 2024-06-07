@@ -365,6 +365,23 @@ class RekapOrder(models.Model):
         return [('company_id', '=', self.env.company.id)]
 ```
 
+## Compute Tax In Odoo in Recommended Way
+```python
+    @api.onchange('ticket_number')
+    def compute_tax(self):
+        taxes = self.line_id.tax_id
+        for rec in self:
+            ticket_amount = rec.ticket_number.total_amount
+
+            if taxes:
+                tax_computation = taxes.compute_all(ticket_amount, currency=self.ticket_number.currency_id, quantity=1)
+                tax_total = tax_computation['total_included'] - tax_computation['total_excluded']
+            else:
+                tax_total = 0
+
+            rec.ticket_tax = tax_total
+```
+
 ## Download Attachment Through Button, Make ir.attachment, And Create Email
 It works like casual Odoo email sending, but not using window pop up
 ```python

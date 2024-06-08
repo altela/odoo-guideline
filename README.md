@@ -557,6 +557,7 @@ attachment_id = fields.Many2many('ir.attachment')
 <field name="attachment_id" widget="many2many_binary"/>
 ```
 
+# QOL Programming And Tips
 
 ## Error at row 0: "Unknown error during import: <class 'TypeError'>: list indices must be integers or slices, not str"
 This error mostly come during import-export product
@@ -595,3 +596,28 @@ It should be done this way
         return res
 ```
 
+## Why You Should include string parameter into fields declaration
+When you declare field in python such as
+
+```python
+company_partner_id = fields.Many2one('res.partner')
+```
+
+it is better to put string parameter as well
+```python
+company_partner_id = fields.Many2one('res.partner', string='Client')
+```
+Why?
+Because it is better for you when you already create a field which has data into it but customer require that field under the other name. Thus, instead of renaming the field it is better to just declare string to it.
+Both you and user will be happy. In addition, it will increase user's QoL during import-export data.
+When they are importing and exporting, both object (variable) and UI string will be appeared at the same moment
+
+![Screen Shot 2024-06-08 at 15 35 59](https://github.com/altela/odoo-doc/assets/68892527/58eeaaec-fb01-4de0-b4f5-d86ed7431921)
+
+when you are not declaring it, it will show as 'Company Partner ID' instead
+
+![Screen Shot 2024-06-08 at 15 37 58](https://github.com/altela/odoo-doc/assets/68892527/7163697d-e2c9-4b3b-8d34-acdf8ada3323)
+
+Also, avoid naming field via .xml because in this case it will become useless and the field names will make user confused
+
+![Screen Shot 2024-06-08 at 15 41 02](https://github.com/altela/odoo-doc/assets/68892527/68f88c94-d9ab-449a-848a-673425cd5df1)

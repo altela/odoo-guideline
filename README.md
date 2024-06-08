@@ -621,3 +621,5 @@ when you are not declaring it, it will show as 'Company Partner ID' instead
 Also, avoid naming field via .xml because in this case it will become useless and the field names will make user confused
 
 ![Screen Shot 2024-06-08 at 15 41 02](https://github.com/altela/odoo-doc/assets/68892527/68f88c94-d9ab-449a-848a-673425cd5df1)
+
+The good thing is, during import, when you specifiy either string name or field name inside .xls or .csv file, it will support both name

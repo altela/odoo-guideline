@@ -557,3 +557,41 @@ attachment_id = fields.Many2many('ir.attachment')
 <field name="attachment_id" widget="many2many_binary"/>
 ```
 
+
+## Error at row 0: "Unknown error during import: <class 'TypeError'>: list indices must be integers or slices, not str"
+This error mostly come during import-export product
+Make sure that indices field is not refering to existing record such as this example
+```python
+    # The previous_well_info is an indiced (many2many) field
+    def create(self, vals):
+        res = super(WellInformation, self).create(vals)
+
+        previous_uwi = self.env['well.information'].search([('uwi', '=', vals['uwi']), ('id', '!=', res.id)])
+
+        if bool(previous_uwi):
+            res.previous_well_info = previous_uwi.ids
+
+        return res
+
+```
+It should be done this way
+```python
+    def create(self, vals):
+        res = super(WellInformation, self).create(vals)
+
+        try:
+            # For regular create() process by casual user
+            previous_uwi = self.env['well.information'].search([('uwi', '=', vals['uwi']), ('id', '!=', res.id)])
+
+            if bool(previous_uwi):
+                res.previous_well_info = previous_uwi.ids
+        except:
+            # For upload (import) process
+            previous_uwi = self.env['well.information'].search([('uwi', '=', vals[0]['uwi']), ('id', '!=', res.id)])
+
+            if bool(previous_uwi):
+                res.previous_well_info = previous_uwi.ids
+
+        return res
+```
+

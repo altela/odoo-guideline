@@ -1,5 +1,38 @@
 # XML
 
+## Split XML Group Into Multiple Column
+```xml
+    <group col="1">
+        <group col="3">
+            <group >
+                <field name="unit_make" />
+            </group>
+            <group>
+                <field name="unit_size"/>
+            </group>
+            <group >
+                <field name="run_cycle"/>
+            </group>
+            <group>
+                <field name="unit_of_pins"/>
+            </group>
+            <group>
+                <field name="stroke_length"/>
+            </group>
+            <group >
+                <field name="psn_depth"/>
+            </group>
+            <group>
+                <field name="tubing_depth"/>
+            </group>
+        </group>
+    </group>
+```
+Result
+
+<img width="1170" alt="Screen Shot 2024-06-14 at 00 07 43" src="https://github.com/altela/odoo-doc/assets/68892527/0a8d01a7-bf1c-4ff5-b8da-60f212dc094b">
+
+
 ## Align Right Using Div
 ```xml
     <div style="text-align:right; margin-top:20px; ">

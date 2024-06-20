@@ -13,6 +13,7 @@
     </record>
 ```
 Result :
+
 ![Screen Shot 2024-06-19 at 10 40 22](https://github.com/altela/odoo-doc/assets/68892527/47e24f92-3e08-47da-8fcf-26236e0bcbb6)
 
 ## Split XML Group Into Multiple Column
@@ -370,6 +371,49 @@ define_a_date = fields.Date.context_today(self)
         # Link payment with the invoice
         receivable_line = payment.line_ids.filtered('credit')
         invoice.js_assign_outstanding_line(receivable_line.id)
+```
+
+## Passing Context from other_method() into create() method
+This also can be applied to another method but to simplify stuff we will use create() method instead
+first we inherit a create() method into the module
+```python
+    @api.model
+    def create(self, vals):
+        if vals.get('payroll_number', 'New') == 'New':
+            vals['payroll_number'] = self.env['ir.sequence'].next_by_code('payroll.number.sequence') or 'New'
+        result = super(CentralPayroll, self).create(vals)
+
+        return result
+```
+
+now, in another part of the block, we have cron_auto_create_monthly_transfer_payroll(). We need to create context as dictionary to be passed on when create() is called
+```python
+    def cron_auto_create_monthly_transfer_payroll(self):
+        context = {
+            'is_via_cron': True
+        }
+
+        payroll = self.env['central.payroll'].with_context(context).create({ # Put the context during creation with .with_context(args)
+            'employee_id': employee.id,
+            'periode_bulan': str(current_month),
+            'periode_tahun': self.env['central.configuration.year'].search([('year','=',current_year)]).id,
+            'attendance_start': start_date,
+            'attendance_finish': finish_date,
+            'account_debit': self.env['account.journal'].search([('name','=','BCA 1910928887 (IDR)')]).id
+        })
+```
+
+if we go back to the create(), we can fetch the context using self.env.context
+```python
+    @api.model
+    def create(self, vals):
+        if vals.get('payroll_number', 'New') == 'New':
+            vals['payroll_number'] = self.env['ir.sequence'].next_by_code('payroll.number.sequence') or 'New'
+        result = super(CentralPayroll, self).create(vals)
+
+        context = self.env.context
+        print("Context:", context) # This shall print out all context
+        return result
 ```
 
 ## Track Invoice Payment

@@ -1,4 +1,10 @@
 # XML
+
+## Sort XML QWEB Based on Date
+```xml
+<t t-set="sorted_well_info" t-value="sorted(o.uwi.previous_well_info, key=lambda r: r.creation_date, reverse=True)"/>
+```
+
 ## Use print_report_name To Define the Report PDF Name
 ```xml
     <record id="report_action_field_ticket" model="ir.actions.report">

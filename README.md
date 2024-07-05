@@ -524,6 +524,30 @@ It works like casual Odoo email sending, but not using window pop up
         return action
 ```
 
+## Apply Filter Domain on Many2one
+```python
+    tunjangan_type = fields.Selection([
+        ('bonus', 'Bonus/Tunjangan Karyawan'),
+        ('potongan', 'Potongan'),
+        
+    ], string='Tipe Tunjangan',default='bonus', states={
+        'draft': [('readonly', False)],
+        'paid': [('readonly', True)],
+        'cancel': [('readonly', True)],
+    })
+
+    @api.onchange('tunjangan_type')
+    def _compute_tunjangan_domain(self):
+        for record in self:
+            if record.tunjangan_type == 'bonus':
+                return {'domain': {'account_tunjangan': ['&', '|', '|', '|', 
+                                                         ('name', 'ilike', 'bonus'), 
+                                                         ('name', 'ilike', 'pesangon'), 
+                                                         ('name', 'ilike', 'lembur'), 
+                                                         ('name', 'ilike', 'seragam'), 
+                                                         ('user_type_id', '=', 'Expenses')]}}
+```
+
 ## One2many Guideline
 Here's the basic One2many guidelines
 ```python

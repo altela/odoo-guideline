@@ -1,5 +1,11 @@
 # XML
 
+## Unpack List in Qweb in Single Line
+```xml
+<t t-set="technician" t-value="['Aal', 'Altela']"/>
+Technician : <span t-esc="', '.join(technician)"/>
+```
+
 ## Sort XML QWEB Based on Date
 ```xml
 <t t-set="sorted_uwi_main" t-value="sorted(docs.work_table.uwi, key=lambda r: r.creation_date, reverse=True)"/>

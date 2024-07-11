@@ -342,6 +342,41 @@ This will help you to make single signature on the bottom right
 </div>
 ```
 
+This will make two column
+```xml
+<div style="float: left; color:#000; text-align:left; font-size:15px; margin-bottom:20px; margin-top:25px">
+    <div class="row" style="page-break-inside:avoid;">
+        <div class="text-center" style="margin-left:50px">
+            <div class="col-sm-2" style="color:#000">
+                Tertanda,
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </div>
+
+            <div class="col-sm-2" style="color:#000">
+                <p>(____________________)</p>
+            </div>
+        </div>
+
+        <div class="text-center" style="margin-left:450px">
+            <div class="col-sm-2" style="color:#000">
+                Mengetahui,
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </div>
+
+            <div class="col-sm-2" style="color:#000">
+                <p>(____________________)</p>
+            </div>
+</div>
+    </div>
+</div>
+```
+
 # Python
 
 ## Forcefully write debit-credit

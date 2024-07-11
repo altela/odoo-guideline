@@ -597,6 +597,18 @@ class ComodelsOfMain(models.Model):
     model_id = fields.Many2one('main.models')
 ```
 
+## Create Mail Activity
+```python
+self.env['mail.activity'].create({
+    'res_model_id': self.env['ir.model']._get('field.ticket.generator').id,
+    'res_id': field_ticket.id,
+    'summary': str(self.name) + str(" - Field Ticket Needs To Be Created"),
+    'user_id': bookkeeper.id,
+    'date_deadline': fields.Datetime.context_timestamp(self.with_context(tz=user_timezone), timestamp=today_in_string),
+    'activity_type_id': 4,
+})
+```
+
 ## Assign Existing Record into Many2many
 ```python
 previous_well_info = fields.Many2many('well.information', 'previous_well_info', 'uwi', 'uwi_id', string='Legumes', readonly=True)

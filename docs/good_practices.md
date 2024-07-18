@@ -33,6 +33,8 @@ Why?
 
 Also, avoid naming field via .xml because it will make user confused. Declaring in .xml will only appear on XML level so when user exporting records to .xlsx (Excel File) they fill have a hard time.
 
+---
+
 ## Never Use `store=True` For Computed Fields
 Never declare a computed field with parameter `store=True`.
 
@@ -46,11 +48,15 @@ def compute_money_count(self):
 
 That's because it will lead to a consistency issue. `money_count` above is supposed to keep calculation when certain condition are met. If the `@api.depends()` decorator are triggered, the first calculation will be saved into the database. However, the second or third may not (at it will still use the first calculation result) and it's really dangerous. Make sure to never store any calculated field into database.
 
+---
+
 ## Always Define `company_id` field to support multicompany
 The title says it all. Just do it.
 ```python
 company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
 ```
+
+---
 
 ## Always Broke Your Code Into Parts
 Split your code into different method. This will ensure the code is reusable.

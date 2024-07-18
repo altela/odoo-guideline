@@ -1,7 +1,3 @@
-# Standard Operational Procedures
-1. [Always Define company_id Fields](https://github.com/altela/odoo-doc/edit/main/README.md#always-define-company_id-field-to-support-multicompany)
-
-
 # Software Development Good Practices
 
 ## Always include string parameter when declaring fields

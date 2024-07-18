@@ -3,6 +3,11 @@ layout: default
 title: Good Practices
 nav_order: 2
 description: "Good practices when developing Odoo."
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
 ---
 
 ## Always Include String Parameter When Declaring Fields

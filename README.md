@@ -1,3 +1,57 @@
+# Standard Operational Procedures
+1. [Always Define company_id Fields](https://github.com/altela/odoo-doc/edit/main/README.md#always-define-company_id-field-to-support-multicompany)
+
+
+# Software Development Good Practices
+
+## Always include string parameter when declaring fields
+When you declare field in python such as
+
+```python
+company_partner_id = fields.Many2one('res.partner')
+```
+
+it is better to put `string` parameter as well
+```python
+company_partner_id = fields.Many2one('res.partner', string='Client')
+```
+Why?
+- It will enhance user experience when import-export .xlsx
+- Possibility to declaring variable and defining different name (string) for it
+
+Also, avoid naming field via .xml because in this case it will become useless and the field names will make user confused. In this image below, string in XML is `Client` and the fields is `Company Partner`
+
+![Screen Shot 2024-06-08 at 15 41 02](https://github.com/altela/odoo-doc/assets/68892527/68f88c94-d9ab-449a-848a-673425cd5df1)
+
+## Never Use `store=True` For Computed Fields
+Never declare a computed field with parameter `store=True`.
+
+```python
+money_count = fields.Float(compute=compute_money_count, store=True)
+```
+
+That's because it will lead to a consistency issue. `money_count` above is supposed to keep calculation when certain condition are met. If the @api.depends() decorator are triggered, the first calculation will be saved into the database. However, the second or third may not and it's really dangerous. Make sure to never store any calculated field into database.
+
+## Always Define `company_id` field to support multicompany
+The title says it all. Just do it.
+```python
+company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
+```
+
+## Always Broke Your Code To Parts
+Split your code into different method. This will ensure the code is reusable.
+- Using single parameter like `self` is fine.
+- Return. Use return so you can assign the result into variable
+  
+Example
+```python
+def multiply(self):
+    return self.field_one * self.field_two
+
+self.field_three = self.multiply()
+```
+
+
 # XML
 
 ## Unpack List in Qweb in Single Line
@@ -734,70 +788,3 @@ attachment_id = fields.Many2many('ir.attachment')
 ```xml
 <field name="attachment_id" widget="many2many_binary"/>
 ```
-
-# QOL Programming And Tips
-
-## Error at row 0: "Unknown error during import: <class 'TypeError'>: list indices must be integers or slices, not str"
-This error mostly come during import-export product
-Make sure that indices field is not refering to existing record such as this example
-```python
-    # The previous_well_info is an indiced (many2many) field
-    def create(self, vals):
-        res = super(WellInformation, self).create(vals)
-
-        previous_uwi = self.env['well.information'].search([('uwi', '=', vals['uwi']), ('id', '!=', res.id)])
-
-        if bool(previous_uwi):
-            res.previous_well_info = previous_uwi.ids
-
-        return res
-
-```
-It should be done this way
-```python
-    def create(self, vals):
-        res = super(WellInformation, self).create(vals)
-
-        try:
-            # For regular create() process by casual user
-            previous_uwi = self.env['well.information'].search([('uwi', '=', vals['uwi']), ('id', '!=', res.id)])
-
-            if bool(previous_uwi):
-                res.previous_well_info = previous_uwi.ids
-        except:
-            # For upload (import) process
-            previous_uwi = self.env['well.information'].search([('uwi', '=', vals[0]['uwi']), ('id', '!=', res.id)])
-
-            if bool(previous_uwi):
-                res.previous_well_info = previous_uwi.ids
-
-        return res
-```
-
-## Why You Should include string parameter into fields declaration
-When you declare field in python such as
-
-```python
-company_partner_id = fields.Many2one('res.partner')
-```
-
-it is better to put string parameter as well
-```python
-company_partner_id = fields.Many2one('res.partner', string='Client')
-```
-Why?
-Because it is better for you when you already create a field which has data into it but customer require that field under the other name. Thus, instead of renaming the field it is better to just declare string to it.
-Both you and user will be happy. In addition, it will increase user's QoL during import-export data.
-When they are importing and exporting, both object (variable) and UI string will be appeared at the same moment
-
-![Screen Shot 2024-06-08 at 15 35 59](https://github.com/altela/odoo-doc/assets/68892527/58eeaaec-fb01-4de0-b4f5-d86ed7431921)
-
-when you are not declaring it, it will show as 'Company Partner ID' instead
-
-![Screen Shot 2024-06-08 at 15 37 58](https://github.com/altela/odoo-doc/assets/68892527/7163697d-e2c9-4b3b-8d34-acdf8ada3323)
-
-Also, avoid naming field via .xml because in this case it will become useless and the field names will make user confused
-
-![Screen Shot 2024-06-08 at 15 41 02](https://github.com/altela/odoo-doc/assets/68892527/68f88c94-d9ab-449a-848a-673425cd5df1)
-
-The good thing is, during import, when you specifiy either string name or field name inside .xls or .csv file, it will support both name

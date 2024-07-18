@@ -1,3 +1,9 @@
+---
+layout: default
+title: Home
+nav_order: 1
+---
+
 # Welcome
 
 This page is initially created as a personal documentation, written by [@altela](www,github.com/altela).

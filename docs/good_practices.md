@@ -3,6 +3,10 @@ layout: default
 title: Good Practices
 nav_order: 2
 description: "Good practices when developing Odoo."
+
+# Good Practices
+{: .no_toc }
+
 ## Table of contents
 {: .no_toc .text-delta }
 

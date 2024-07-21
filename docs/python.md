@@ -2,10 +2,10 @@
 layout: default
 title: Python Notes
 nav_order: 3
-description: "Python."
+description: "Python Notes."
 ---
 
-# Python
+# Python Notes
 
 ## Compare / Convert The Database Time (UTC0) With Logged in User Timezone
 By default, time and date inside Odoo postgresql is saved in UTC0 format. If you are working with times in Odoo, it is always recommended to convert the date and times into user's timezone first.
@@ -213,7 +213,7 @@ attachment = self.env['ir.attachment'].create({
 
 ---
 
-# Launch Record To a New View
+## Launch Record To a New View
 ```python
 def launch_other_view(self):
     action = {

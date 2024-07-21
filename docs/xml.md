@@ -294,13 +294,15 @@ The result
 
 ## Overlay Text
 
-![Screen Shot 2024-05-07 at 09 31 00](https://github.com/altela/odoo-doc/assets/68892527/b87c7b38-a17f-422f-87ef-54ab33b1b7e2)
-
 ```xml
 <div class="alert alert-info">
     <t>Semua record yang berhasil muncul adalah record yang berstatus 'Paid'.</t>
 </div>
 ```
+
+Result :
+
+![Screen Shot 2024-05-07 at 09 31 00](https://github.com/altela/odoo-doc/assets/68892527/b87c7b38-a17f-422f-87ef-54ab33b1b7e2)
 
 ---
 

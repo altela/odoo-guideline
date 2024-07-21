@@ -1,13 +1,36 @@
 ---
 layout: default
-title: Python
+title: Python Notes
 nav_order: 3
 description: "Python."
 ---
 
 # Python
 
-## Forcefully write debit-credit on `account.move.line`
+## Compare / Convert The Database Time (UTC0) With Logged in User Timezone
+By default, time and date inside Odoo postgresql is saved in UTC0 format. If you are working with times in Odoo, it is always recommended to convert the date and times into user's timezone first.
+After you made some manipulation on those times in computer memory, simply save it back into fields.Datetime(). it will also converted back automatically into the UTC0 as well.
+
+The recommended flow to work on the date in a nutshell is :
+fetch a date from postgresql (use ORM is also fine) -> convert the date into current user timezone -> make some manipulation -> store it back to fields.Datetime() -> it will saved back into postgresql
+
+This is the block example : 
+
+```python
+from odoo import fields
+
+# Initializing the records and user timezones
+api_time = record['updatedAt'] # Assuming this is the date and time, fetch from external API or casual text format
+api_time_in_datetime_format = fields.Datetime.from_string(api_time) # Convert api_time into Datetime format using odoo fields import
+user_timezone = self.env.user.tz # This will get current user timezone, accessible from .env
+
+# convert from UTC0 (server timezone) to user timezone
+api_time_in_user_timezone = fields.Datetime.context_timestamp(self.with_context(tz=user_timezone), timestamp=api_time_in_datetime_format)
+api_time_converted_as_strftime= api_time_in_user_timezone.strftime("%Y-%m-%d %H:%M:%S")
+api_time_converted_as_strptime = datetime.strptime(api_time_converted_as_string, "%Y-%m-%d %H:%M:%S")
+```
+
+## Forcefully Write Debit-Credit On `account.move.line`
 
 Using `.with_context()` will help to forcefully write debit-credit of journal entry without cancelling it.
 
@@ -33,7 +56,9 @@ define_a_date = fields.Date.context_today(self)
 
 ---
 
-## Link register payment with invoice
+## Link Register Payment With Invoice
+We can use `js_assign_outstanding_line()` to link invoice with payment
+
 ```python
 def register_payment(self):
     payment_data = {
@@ -57,9 +82,9 @@ def register_payment(self):
 
 ---
 
-## Passing Context from other_method() into create() method
-This also can be applied to another method but to simplify stuff we will use create() method instead
-first we inherit a create() method into the module
+## Passing Context From `other_method()` Into `create()` Method
+This also can be applied to another method but to simplify stuff we will use `create()` method example instead
+first we inherit a `create()` method into the module
 ```python
 @api.model_create_multi
 def create(self, vals):
@@ -70,7 +95,7 @@ def create(self, vals):
     return result
 ```
 
-now, in another part of the block, we have cron_auto_create_monthly_transfer_payroll(). We need to create context as dictionary to be passed on when create() is called
+now, in another part of the block, we have `cron_auto_create_monthly_transfer_payroll()`. We need to create context as dictionary to be passed on when `create()` is called
 ```python
 def cron_auto_create_monthly_transfer_payroll(self):
     context = {
@@ -126,7 +151,7 @@ class RekapOrder(models.Model):
     _rec_name = 'name'
 
     name = fields.Char(readonly=True, required=True, copy=False, default='New')
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         # Auto Assign record name
         if vals.get('name', 'New') == 'New':
@@ -139,6 +164,7 @@ class RekapOrder(models.Model):
 ---
 
 ## Set Domain Based on Company
+This will fetch current logged in user by getting from `env`
 ```python
 account_stock_journal = fields.Many2one('account.journal', ondelete='restrict', domain=lambda self: self._get_company_domain())
 
@@ -149,7 +175,7 @@ def _get_company_domain(self):
 
 ---
 
-## Compute Tax In Odoo in Recommended Way
+## Compute Tax (Most Recommended Way)
 ```python
 @api.onchange('ticket_number')
 def compute_tax(self):
@@ -168,36 +194,34 @@ def compute_tax(self):
 
 ---
 
-## Download Attachment Through Button, Make ir.attachment, And Create Email
-It works like casual Odoo email sending, but not using window pop up
+## Download Record as PDF And Save it To `ir.attachment`
 ```python
-def send_email(self):
-    # Step 1: Generate the report
-    report_pdf = self.env["ir.actions.report"].sudo()._render_qweb_pdf(self.env.ref('crm_project_task.report_well_information_project'), res_ids=self.id)
 
-    # Step 2 : Create ir.attachment
-    filename = 'altela' + '.pdf'
-    attachment = self.env['ir.attachment'].create({
-        'name': filename,
-        'type': 'binary',
-        'datas': base64.b64encode(report_pdf[0]),
-        'res_model': 'project.task',
-        'res_id': self.id,
-        'mimetype': 'application/x-pdf'
-    })
+report_pdf = self.env["ir.actions.report"].sudo()._render_qweb_pdf(self.env.ref('crm_project_task.report_well_information_project'), res_ids=self.id)
 
-    # Step 4: Create a new record in 'email.record' with the attachment
-    email_record = self.env['email.record'].create({
-        'attachments': [(4, attachment.id, False)],
-    })
+filename = 'attachment' + '.pdf'
+attachment = self.env['ir.attachment'].create({
+    'name': filename,
+    'type': 'binary',
+    'datas': base64.b64encode(report_pdf[0]),
+    'res_model': 'project.task',
+    'res_id': self.id,
+    'mimetype': 'application/x-pdf'
+})
 
-    # Step 5: Return an action to open the newly created email_record
+```
+
+---
+
+# Launch Record To a New View
+```python
+def launch_other_view(self):
     action = {
         'type': 'ir.actions.act_window',
         'name': 'Email Record',
         'res_model': 'email.record',
         'view_mode': 'form',
-        'res_id': email_record.id,
+        'res_id': record.id,
         'target': 'current',
     }
     return action
@@ -247,7 +271,7 @@ class ComodelsOfMain(models.Model):
 
 ---
 
-## Create Mail Activity
+## Create Mail Activity (To-Do)
 ```python
 self.env['mail.activity'].create({
     'res_model_id': self.env['ir.model']._get('field.ticket.generator').id,
@@ -365,31 +389,6 @@ _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'sequence.mixi
 access_token = fields.Char()
 ```
 Everything should have been exactly like example above, so it will allows you to make an access token.
-
----
-
-## Compare / Convert The Database Time (UTC0) With Logged in User Timezone
-By default, time and date inside Odoo postgresql is saved in UTC0 format. If you are working with times in Odoo, it is always recommended to convert the date and times into user's timezone first.
-After you made some manipulation on those times in computer memory, simply save it back into fields.Datetime(). it will also converted back automatically into the UTC0 as well.
-
-The recommended flow to work on the date in a nutshell is :
-fetch a date from postgresql (use ORM is also fine) -> convert the date into current user timezone -> make some manipulation -> store it back to fields.Datetime() -> it will saved back into postgresql
-
-This is the block example : 
-
-```python
-from odoo import fields
-
-# Initializing the records and user timezones
-api_time = record['updatedAt'] # Assuming this is the date and time, fetch from external API or casual text format
-api_time_in_datetime_format = fields.Datetime.from_string(api_time) # Convert api_time into Datetime format using odoo fields import
-user_timezone = self.env.user.tz # This will get current user timezone, accessible from .env
-
-# convert from UTC0 (server timezone) to user timezone
-api_time_in_user_timezone = fields.Datetime.context_timestamp(self.with_context(tz=user_timezone), timestamp=api_time_in_datetime_format)
-api_time_converted_as_strftime= api_time_in_user_timezone.strftime("%Y-%m-%d %H:%M:%S")
-api_time_converted_as_strptime = datetime.strptime(api_time_converted_as_string, "%Y-%m-%d %H:%M:%S")
-```
 
 ---
 

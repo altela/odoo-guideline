@@ -27,16 +27,13 @@ Technician : <span t-esc="', '.join(technician)"/>
         <field name="name">Field Ticket</field>
         <field name="model">field.ticket.generator</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="print_report_name">'Echo Ticket %s %s' % (object.display_name, object.creation_date.strftime('%d-%m-%Y'))</field>
+        <field name="print_report_name">'The File Name %s %s' % (object.display_name, object.creation_date.strftime('%d-%m-%Y'))</field>
         <field name="report_name">field_ticket_generator.report_field_ticket</field>
         <field name="report_file">field_ticket_generator.report_field_ticket</field>
         <field name="binding_model_id" ref="model_field_ticket_generator" />
         <field name="binding_type">report</field>
     </record>
 ```
-Result :
-
-![Screen Shot 2024-06-19 at 10 40 22](https://github.com/altela/odoo-doc/assets/68892527/47e24f92-3e08-47da-8fcf-26236e0bcbb6)
 
 ## Split XML Group Into Multiple Column
 ```xml
